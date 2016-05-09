@@ -125,7 +125,7 @@ def gatraPlayer_PostPlay(request):
 
         play.save()
 
-        location = "http://gatra.zolechamendia.net/play/" + str(play.id)
+        location = "http://gatra.zolechamendia.net:8000/play/" + str(play.id)
         status = http_POST_OK
         data = {'location' : location};
         response =  HttpResponse(json.dumps(data), status=status, content_type='application/json')
@@ -157,12 +157,12 @@ def gatraPlayer_PostEvent(request, id):
         return HttpResponse('', status=http_UNAUTHORIZED)
 
     if id is None:
-	return HttpResponse('1', status=http_BAD_REQUEST)
+	return HttpResponse('', status=http_BAD_REQUEST)
 
     try:
         jsonData = json.loads(request.body)
     except:
-        return HttpResponse('2', status=http_BAD_REQUEST)
+        return HttpResponse('', status=http_BAD_REQUEST)
 
     if ('type' in jsonData.keys() and
     'trigger' in jsonData.keys() and
@@ -182,7 +182,7 @@ def gatraPlayer_PostEvent(request, id):
 	try:
 	    play = Play.objects.get(id = id)
 	except:
-	    return HttpResponse('3', status=http_BAD_REQUEST)
+	    return HttpResponse('', status=http_BAD_REQUEST)
 
         event = Event()
         event.play_id           = play
@@ -206,4 +206,4 @@ def gatraPlayer_PostEvent(request, id):
         status = http_POST_OK
         return HttpResponse('', status=status, content_type='application/json')
 
-    return HttpResponse('4', status=http_BAD_REQUEST)
+    return HttpResponse('', status=http_BAD_REQUEST)
