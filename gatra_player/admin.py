@@ -5,6 +5,8 @@ from .models import Play
 from .models import Event
 from .models import Hash
 
-admin.site.register(Play)
+@admin.register(Play)
+class PlayConfig(admin.ModelAdmin):
+    list_display = ['id', 'user_name', 'title']
 admin.site.register(Event)
 admin.site.register(Hash)

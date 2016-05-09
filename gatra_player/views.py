@@ -29,6 +29,7 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+
 def get_user_agent(request):
     return request.META.get('HTTP_USER_AGENT')
 
@@ -39,9 +40,8 @@ def gatraPlayer_PostHash(request):
 
     try:
         data = json.loads(request.body)
-        except:
+    except:
         return HttpResponse('', status=http_BAD_REQUEST)
-
 
     if 'host' in data.keys() and 'hash' in data.keys() and 'ttl' in data.keys():
         _hash = Hash()
@@ -54,26 +54,19 @@ def gatraPlayer_PostHash(request):
     return HttpResponse('', status=http_BAD_REQUEST)
 
 
-
-
 def gatraPlayer_PostPlay(request):
 
     allowed_methods = ['post', 'options']
 
     if request.method == 'OPTIONS':
         response = HttpResponse()
-        response['allow'] = ','.join([allowed_methods])
+        response['allow'] = ','.join(allowed_methods)
         return response
 
     if request.method != 'POST':
         return HttpResponse(request.META, status=http_NOT_ALLOWED)
 
-    try:
-        jsonData = json.loads(request.body)
-    except:
-        return HttpResponse('', status=http_BAD_REQUEST)
-
-    if 	'HTTP_GATRA_HASH' in request.META.keys():
+    if 'HTTP_GATRA_HASH' in request.META.keys():
         _hash = request.META['HTTP_GATRA_HASH']
         try:
             h = Hash.objects.get(valid_hash = _hash)
@@ -82,6 +75,10 @@ def gatraPlayer_PostPlay(request):
     else:
         return HttpResponse('', status=http_UNAUTHORIZED)
 
+    try:
+        jsonData = json.loads(request.body)
+    except:
+        return HttpResponse('', status=http_BAD_REQUEST)
 
     if ('title' in jsonData.keys() and
        'duration' in jsonData.keys() and
@@ -94,22 +91,20 @@ def gatraPlayer_PostPlay(request):
        'media_filename' in jsonData.keys() and
        'media_type' in jsonData.keys()):
 
-    if 'season' in jsonData.keys():
-        serieSeason = jsonData['season']
-    else:
-        serieSeason = None
+	if 'season' in jsonData.keys():
+    	    serieSeason = jsonData['season']
+        else:
+	    serieSeason = None
 
-    if 'episode' in jsonData.keys():
-        serieEpisode = jsonData['episode']
-    else:
-        serieEpisode = None
+        if 'episode' in jsonData.keys():
+	    serieEpisode = jsonData['episode']
+        else:
+	    serieEpisode = None
 
-    if 'idp_name' in jsonData.keys():
-        idpName = jsonData['idp_name']
-    else:
-        idpName = ''
-
-
+        if 'idp_name' in jsonData.keys():
+	    idpName = jsonData['idp_name']
+        else:
+	    idpName = ''
 
         play = Play()
         play.title          = jsonData['title']
@@ -140,15 +135,34 @@ def gatraPlayer_PostPlay(request):
     return HttpResponse('', status=http_BAD_REQUEST)
 
 
-def gatraPlayer_PostEvent(request):
+def gatraPlayer_PostEvent(request, id):
+
+    allowed_methods = ['post', 'options']
+
+    if request.method == 'OPTIONS':
+        response = HttpResponse()
+        response['allow'] = ','.join(allowed_methods)
+        return response
 
     if request.method != 'POST':
         return HttpResponse('', status=http_NOT_ALLOWED)
 
+    if 'HTTP_GATRA_HASH' in request.META.keys():
+        _hash = request.META['HTTP_GATRA_HASH']
+        try:
+            h = Hash.objects.get(valid_hash = _hash)
+        except:
+            return HttpResponse(_hash, status=http_UNAUTHORIZED)
+    else:
+        return HttpResponse('', status=http_UNAUTHORIZED)
+
+    if id is None:
+	return HttpResponse('1', status=http_BAD_REQUEST)
+
     try:
         jsonData = json.loads(request.body)
     except:
-        return HttpResponse('', status=http_BAD_REQUEST)
+        return HttpResponse('2', status=http_BAD_REQUEST)
 
     if ('type' in jsonData.keys() and
     'trigger' in jsonData.keys() and
@@ -165,15 +179,13 @@ def gatraPlayer_PostEvent(request):
     'quality_label' in jsonData.keys() and
     'volume' in jsonData.keys()):
 
-        try:
-            playId = Play.objects.get(id=jsonData['event']['play_id'])
-        except ObjectDoesNotExist:
-            status = http_NOT_FOUND
-            return HttpResponse(json.dumps({'message': 'play_id not found'}), status=status, content_type='application/json')
-
+	try:
+	    play = Play.objects.get(id = id)
+	except:
+	    return HttpResponse('3', status=http_BAD_REQUEST)
 
         event = Event()
-        event.play_id           = playId
+        event.play_id           = play
         event.type              = jsonData['type']
         event.trigger           = jsonData['trigger']
         event.bitrate           = jsonData['bitrate']
@@ -181,17 +193,17 @@ def gatraPlayer_PostEvent(request):
         event.media_seq         = jsonData['media_seq']
         event.width             = jsonData['width']
         event.load_time         = jsonData['load_time']
-        event.container_heigth  = jsonData['container_height']
-        event.container_weigth  = jsonData['container_width']
-        event.state             = jsonDate['state']
-        event.position          = jsonDate['position']
-        event.fullscreen        = jsonDate['fullscreen']
-        event.quality_label     = jsonDate['quality_label']
-        event.volume            = jsonDate['volume']
+        event.container_height  = jsonData['container_height']
+        event.container_width	= jsonData['container_width']
+        event.state             = jsonData['state']
+        event.position          = jsonData['position']
+        event.fullscreen        = jsonData['fullscreen']
+        event.quality_label     = jsonData['quality_label']
+        event.volume            = jsonData['volume']
 
         event.save()
 
         status = http_POST_OK
         return HttpResponse('', status=status, content_type='application/json')
 
-    return HttpResponse('', status=http_BAD_REQUEST)
+    return HttpResponse('4', status=http_BAD_REQUEST)

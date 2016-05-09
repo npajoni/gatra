@@ -29,5 +29,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^play/$', gatraPlayer_PostPlay),
     url(r'^hash/$', gatraPlayer_PostHash),
-    url(r'^event/(?P<id>\d+)/$', gatraPlayer_PostEvent)
+    url(r'^play/(?P<id>\d+)/$', gatraPlayer_PostEvent)
 ]
