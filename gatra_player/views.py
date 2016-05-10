@@ -41,7 +41,7 @@ def gatraPlayer_PostHash(request):
     try:
         data = json.loads(request.body)
     except:
-        return HttpResponse('', status=http_BAD_REQUEST)
+        return HttpResponse('Could not load json', status=http_BAD_REQUEST)
 
     if 'host' in data.keys() and 'hash' in data.keys() and 'ttl' in data.keys():
         _hash = Hash()
@@ -51,16 +51,16 @@ def gatraPlayer_PostHash(request):
         _hash.save()
         return HttpResponse(data['hash'], status=http_POST_OK)
 
-    return HttpResponse('', status=http_BAD_REQUEST)
+    return HttpResponse('Mandatory json value not found', status=http_BAD_REQUEST)
 
 
 def gatraPlayer_PostPlay(request):
 
-    allowed_methods = ['post', 'options']
+    allowed_methods = ['POST', 'OPTIONS']
 
     if request.method == 'OPTIONS':
-        response = HttpResponse()
-        response['allow'] = ','.join(allowed_methods)
+        response = HttpResponse('', status=http_REQUEST_OK)
+        response['Allow'] = ', '.join(allowed_methods)
         return response
 
     if request.method != 'POST':
@@ -78,7 +78,7 @@ def gatraPlayer_PostPlay(request):
     try:
         jsonData = json.loads(request.body)
     except:
-        return HttpResponse('', status=http_BAD_REQUEST)
+        return HttpResponse('Could not load json', status=http_BAD_REQUEST)
 
     if ('title' in jsonData.keys() and
        'duration' in jsonData.keys() and
@@ -91,25 +91,8 @@ def gatraPlayer_PostPlay(request):
        'media_filename' in jsonData.keys() and
        'media_type' in jsonData.keys()):
 
-	if 'season' in jsonData.keys():
-    	    serieSeason = jsonData['season']
-        else:
-	    serieSeason = None
-
-        if 'episode' in jsonData.keys():
-	    serieEpisode = jsonData['episode']
-        else:
-	    serieEpisode = None
-
-        if 'idp_name' in jsonData.keys():
-	    idpName = jsonData['idp_name']
-        else:
-	    idpName = ''
-
         play = Play()
         play.title          = jsonData['title']
-        play.season         = serieSeason
-        play.episode        = serieEpisode
         play.duration       = jsonData['duration']
         play.device_type    = jsonData['device_type']
         play.user_agent     = get_user_agent(request)
@@ -118,30 +101,38 @@ def gatraPlayer_PostPlay(request):
         play.user_id        = jsonData['user_id']
         play.country        = jsonData['country']
         play.idp            = jsonData['idp']
-        play.idp_name       = idpName
         play.media_id       = jsonData['media_id']
         play.media_filename = jsonData['media_filename']
         play.media_type     = jsonData['media_type']
 
+	if 'season' in jsonData.keys():
+	    play.season = jsonData['season']
+
+	if 'episode' in jsonData.keys():
+	    play.episode = jsonData['episode']
+
+	if 'idp_name' in jsonData.keys():
+	    play.idp_name = jsonData['idp_name']
+
         play.save()
 
-        location = "http://gatra.zolechamendia.net:8000/play/" + str(play.id)
+        location = "http://gatra.zolechamedia.net:8000/play/" + str(play.id) + "/"
         status = http_POST_OK
         data = {'location' : location};
         response =  HttpResponse(json.dumps(data), status=status, content_type='application/json')
-        response['Location'] = location
+    #    response['Location'] = location
         return response
 
-    return HttpResponse('', status=http_BAD_REQUEST)
+    return HttpResponse('Mandatory json value not found', status=http_BAD_REQUEST)
 
 
 def gatraPlayer_PostEvent(request, id):
 
-    allowed_methods = ['post', 'options']
+    allowed_methods = ['POST', 'OPTIONS']
 
     if request.method == 'OPTIONS':
-        response = HttpResponse()
-        response['allow'] = ','.join(allowed_methods)
+        response = HttpResponse('', status=http_REQUEST_OK)
+        response['Allow'] = ', '.join(allowed_methods)
         return response
 
     if request.method != 'POST':
@@ -162,48 +153,53 @@ def gatraPlayer_PostEvent(request, id):
     try:
         jsonData = json.loads(request.body)
     except:
-        return HttpResponse('', status=http_BAD_REQUEST)
+        return HttpResponse('Could not load json', status=http_BAD_REQUEST)
 
     if ('type' in jsonData.keys() and
     'trigger' in jsonData.keys() and
-    'bitrate' in jsonData.keys() and
-    'bandwidth' in jsonData.keys() and
-    'media_seq' in jsonData.keys() and
     'width' in jsonData.keys() and
-    'load_time' in jsonData.keys() and
     'container_height' in jsonData.keys() and
     'container_width' in jsonData.keys() and
     'state' in jsonData.keys() and
     'position' in jsonData.keys() and
     'fullscreen' in jsonData.keys() and
-    'quality_label' in jsonData.keys() and
     'volume' in jsonData.keys()):
 
 	try:
-	    play = Play.objects.get(id = id)
+	    play_id = Play.objects.get(id = id)
 	except:
-	    return HttpResponse('', status=http_BAD_REQUEST)
+	    return HttpResponse('Play ID not found', status=http_BAD_REQUEST)
 
-        event = Event()
-        event.play_id           = play
+	event = Event()
+        event.play		= play_id
         event.type              = jsonData['type']
         event.trigger           = jsonData['trigger']
-        event.bitrate           = jsonData['bitrate']
-        event.bandwidth         = jsonData['bandwidth']
-        event.media_seq         = jsonData['media_seq']
         event.width             = jsonData['width']
-        event.load_time         = jsonData['load_time']
         event.container_height  = jsonData['container_height']
         event.container_width	= jsonData['container_width']
         event.state             = jsonData['state']
         event.position          = jsonData['position']
         event.fullscreen        = jsonData['fullscreen']
-        event.quality_label     = jsonData['quality_label']
         event.volume            = jsonData['volume']
+
+        if 'bitrate' in jsonData.keys():
+	    event.bitrate = jsonData['bitrate']
+
+	if 'bandwidth' in jsonData.keys():
+	    event.bandwidth = jsonData['bandwidth']
+
+	if 'media_seq' in jsonData.keys():
+	    event.media_seq = jsonData['media_seq']
+
+	if 'load_time' in jsonData.keys():
+	    event.load_time = jsonData['load_time']
+
+	if 'quality_label' in jsonData.keys():
+	    event.quality_label     = jsonData['quality_label']
 
         event.save()
 
         status = http_POST_OK
         return HttpResponse('', status=status, content_type='application/json')
 
-    return HttpResponse('', status=http_BAD_REQUEST)
+    return HttpResponse('Mandatory json value not found', status=http_BAD_REQUEST)

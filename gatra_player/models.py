@@ -15,21 +15,21 @@ class Hash(models.Model):
 
 
 class Event(models.Model):
-    play_id             = models.ForeignKey('Play')
+    play		= models.ForeignKey('Play')
     date                = models.DateTimeField(auto_now_add=True)
     type                = models.CharField(max_length=50)
     trigger             = models.CharField(max_length=20)
-    bitrate             = models.IntegerField()
-    bandwidth           = models.IntegerField()
-    media_seq           = models.IntegerField()
+    bitrate             = models.IntegerField(blank=True, null=True)
+    bandwidth           = models.IntegerField(blank=True, null=True)
+    media_seq           = models.IntegerField(blank=True, null=True)
     width               = models.IntegerField()
-    load_time           = models.FloatField()
+    load_time           = models.FloatField(blank=True, null=True)
     container_height    = models.IntegerField()
     container_width     = models.IntegerField()
     state               = models.CharField(max_length=20)
     position            = models.FloatField()
     fullscreen          = models.BooleanField()
-    quality_label       = models.CharField(max_length=20)
+    quality_label       = models.CharField(max_length=20, blank=True)
     volume              = models.IntegerField()
 
     def __unicode__(self):
