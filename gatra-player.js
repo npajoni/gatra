@@ -5,6 +5,7 @@ var gatra_player = function(_player, _meta)
      * de los datos
      */
     url_post = _meta.url_post;
+
     
     try {
 	_data = {
