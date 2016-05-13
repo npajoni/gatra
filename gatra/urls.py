@@ -25,9 +25,12 @@ from django.contrib import admin
 from gatra_player.views import gatraPlayer_PostPlay
 from gatra_player.views import gatraPlayer_PostEvent
 from gatra_player.views import gatraPlayer_PostHash
+from gatra_client.views import gatraClient_PostLogin
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^play/$', gatraPlayer_PostPlay),
     url(r'^hash/$', gatraPlayer_PostHash),
-    url(r'^play/(?P<id>\d+)/$', gatraPlayer_PostEvent)
+    url(r'^play/(?P<id>\d+)/$', gatraPlayer_PostEvent),
+    url(r'^logins/(?P<id>\d+)/$', gatraClient_PostLogin)
 ]

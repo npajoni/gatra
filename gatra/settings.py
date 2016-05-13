@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gatra_player.apps.GatraPlayerConfig'
+    'gatra_player.apps.GatraPlayerConfig',
+    'gatra_client.apps.GatraClientConfig'
 ]
 
 MIDDLEWARE_CLASSES = [
