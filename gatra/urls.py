@@ -32,5 +32,5 @@ urlpatterns = [
     url(r'^play/$', gatraPlayer_PostPlay),
     url(r'^hash/$', gatraPlayer_PostHash),
     url(r'^play/(?P<id>\d+)/$', gatraPlayer_PostEvent),
-    url(r'^logins/(?P<id>\d+)/$', gatraClient_PostLogin)
+    url(r'^logins/$', gatraClient_PostLogin)
 ]
