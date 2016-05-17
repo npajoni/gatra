@@ -26,7 +26,7 @@ SECRET_KEY = 'hagv(%dl%!yzhrfmk9_#_xjl@!*=ei*w+r=w*a=hp8@%)i@#7&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gatra.zolechamedia.net']
 
 
 # Application definition
@@ -80,12 +80,25 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.gatra'),
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.gatra'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'gatra',
+        'USER': 'gatra',
+        'PASSWORD': 'Ard010fx.',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+
+
 
 
 # Password validation

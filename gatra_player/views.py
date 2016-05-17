@@ -116,7 +116,7 @@ def gatraPlayer_PostPlay(request):
 
         play.save()
 
-        location = "http://gatra.zolechamedia.net:8000/play/" + str(play.id) + "/"
+        location = "http://gatra.zolechamedia.net/play/" + str(play.id) + "/"
         status = http_POST_OK
         data = {'location' : location};
         response =  HttpResponse(json.dumps(data), status=status, content_type='application/json')
