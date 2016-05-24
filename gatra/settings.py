@@ -24,7 +24,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 SECRET_KEY = 'hagv(%dl%!yzhrfmk9_#_xjl@!*=ei*w+r=w*a=hp8@%)i@#7&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['gatra.zolechamedia.net']
 
