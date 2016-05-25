@@ -50,6 +50,8 @@ def gatraClient_PostLogin(request):
         login.idp           = jsonData['idp']
 	if 'idp_name' in jsonData.keys():
     	    login.idp_name      = jsonData['idp_name']
+	if 'session_ttl' in jsonData.keys():
+	    login.session_ttl   = jsonData['session_ttl']
         login.country       = jsonData['country']
         login.access        = jsonData['access']
         login.user_agent    = jsonData['user_agent']

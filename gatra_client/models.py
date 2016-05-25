@@ -18,6 +18,7 @@ class UserLog(models.Model):
     device_type   = models.CharField(max_length=100)
     user_agent    = models.CharField(max_length=500)
     source_ip     = models.CharField(max_length=15)
+    session_ttl   = models.CharField(max_length=10, blank=True)
     date          = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
