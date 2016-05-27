@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from datetime import datetime
 from datetime import timedelta
 
+from user_agents import parse
+
 import json
 
 
@@ -82,7 +84,6 @@ def gatraPlayer_PostPlay(request):
 
     if ('title' in jsonData.keys() and
        'duration' in jsonData.keys() and
-       'device_type' in jsonData.keys() and
        'user_name' in jsonData.keys() and
        'user_id' in jsonData.keys() and
        'country' in jsonData.keys() and
@@ -94,8 +95,19 @@ def gatraPlayer_PostPlay(request):
         play = Play()
         play.title          = jsonData['title']
         play.duration       = jsonData['duration']
-        play.device_type    = jsonData['device_type']
-        play.user_agent     = get_user_agent(request)
+
+	play.user_agent     = get_user_agent(request)
+
+	ua = parse(play.user_agent)
+        if ua.is_mobile:
+            play.device_type = 'mobile'
+        elif ua.is_tablet:
+            play.device_type = 'tablet'
+        elif ua.is_pc:
+            play.device_type = 'desktop'
+        else:
+            play.device_type = 'unknown'
+
         play.ip_source      = get_client_ip(request)
         play.user_name      = jsonData['user_name']
         play.user_id        = jsonData['user_id']
@@ -116,7 +128,7 @@ def gatraPlayer_PostPlay(request):
 
         play.save()
 
-        location = "http://gatra.zolechamedia.net/play/" + str(play.id) + "/"
+        location = "http://gatra.zolechamedia.net:6969/play/" + str(play.id) + "/"
         status = http_POST_OK
         data = {'location' : location};
         response =  HttpResponse(json.dumps(data), status=status, content_type='application/json')

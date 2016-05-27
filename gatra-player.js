@@ -76,7 +76,7 @@ var gatra_player = function(_player, _meta)
 	
     }
 
-    var _delta    = 10;		/* Number of seconds to post event */
+    var _delta    = 30;		/* Number of seconds to post event */
     var _trigger  = 0;
     var _ticks    = 0;
     var _event_post_url;
