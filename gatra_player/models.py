@@ -7,6 +7,8 @@ from django.db import models
 
 class Hash(models.Model):
     valid_hash = models.CharField(max_length=32, unique=True)
+    user_name  = models.CharField(max_length=200, blank=True)
+    title      = models.CharField(max_length=255, blank=True)
     valid_host = models.CharField(max_length=15)
     expiration = models.DateTimeField()
 
@@ -53,6 +55,8 @@ class Play (models.Model):
     media_id        = models.CharField(max_length=10)
     media_filename  = models.CharField(max_length=200)
     media_type      = models.CharField(max_length=10)
-    
+    reduced	    = models.BooleanField(default=False)
+    rep_time	    = models.FloatField(blank=True, null=True)
+
     def __unicode__(self):
         return self.user_name

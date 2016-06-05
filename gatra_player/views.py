@@ -49,6 +49,12 @@ def gatraPlayer_PostHash(request):
         _hash = Hash()
         _hash.valid_host = data['host']
         _hash.valid_hash = data['hash']
+	
+	if 'user_name' in data.keys():
+	    _hash.user_name = data['user_name']
+	if 'title' in data.keys():
+	    _hash.title     = data['title']
+
         _hash.expiration = datetime.now() + timedelta(0,data['ttl'])
         _hash.save()
         return HttpResponse(data['hash'], status=http_POST_OK)
