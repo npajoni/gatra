@@ -7,7 +7,8 @@ class UserLog(models.Model):
 
     ACCESS_TYPE = (('none', 'none'),
 	       ('half_access', 'half_access'),
-	       ('full_access', 'full_access'))
+	       ('full_access', 'full_access'),
+	       ('payment', 'payment'))
 
     customer_id   = models.CharField(max_length=255)
     customer_name = models.CharField(max_length=255)

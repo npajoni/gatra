@@ -4,6 +4,7 @@ from django.contrib import admin
 from .models import Play
 from .models import Event
 from .models import Hash
+from .models import Content
 
 @admin.register(Play)
 class PlayConfig(admin.ModelAdmin):
@@ -19,3 +20,7 @@ class EventConfig(admin.ModelAdmin):
 class HashConfig(admin.ModelAdmin):
     list_display = ['valid_hash', 'user_name', 'title']
 
+
+@admin.register(Content)
+class ContentConfig(admin.ModelAdmin):
+    list_display = ['title', 'media_id']

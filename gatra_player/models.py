@@ -60,3 +60,14 @@ class Play (models.Model):
 
     def __unicode__(self):
         return self.user_name
+
+class Content(models.Model):
+    title	    = models.CharField(max_length=255)
+    media_id        = models.CharField(max_length=10)
+    category	    = models.CharField(max_length=510)
+    channel	    = models.CharField(max_length=50)
+    cast	    = models.CharField(max_length=300, blank=True)
+
+    def __unicode__(self):
+	return self.title
+
