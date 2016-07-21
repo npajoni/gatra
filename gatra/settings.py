@@ -24,7 +24,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 SECRET_KEY = 'hagv(%dl%!yzhrfmk9_#_xjl@!*=ei*w+r=w*a=hp8@%)i@#7&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['gatra.zolechamedia.net']
 
@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gatra_player.apps.GatraPlayerConfig',
-    'gatra_client.apps.GatraClientConfig'
+    'gatra_client.apps.GatraClientConfig',
+    'gatra_thirdparty.apps.GatraThirdpartyConfig'
 ]
 
 MIDDLEWARE_CLASSES = [

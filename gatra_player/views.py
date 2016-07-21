@@ -49,11 +49,11 @@ def gatraPlayer_PostHash(request):
         _hash = Hash()
         _hash.valid_host = data['host']
         _hash.valid_hash = data['hash']
-	
-	if 'user_name' in data.keys():
-	    _hash.user_name = data['user_name']
-	if 'title' in data.keys():
-	    _hash.title     = data['title']
+
+        if 'user_name' in data.keys():
+            _hash.user_name = data['user_name']
+        if 'title' in data.keys():
+            _hash.title     = data['title']
 
         _hash.expiration = datetime.now() + timedelta(0,data['ttl'])
         _hash.save()
@@ -102,9 +102,9 @@ def gatraPlayer_PostPlay(request):
         play.title          = jsonData['title']
         play.duration       = jsonData['duration']
 
-	play.user_agent     = get_user_agent(request)
+        play.user_agent     = get_user_agent(request)
 
-	ua = parse(play.user_agent)
+        ua = parse(play.user_agent)
         if ua.is_mobile:
             play.device_type = 'mobile'
         elif ua.is_tablet:
@@ -123,14 +123,14 @@ def gatraPlayer_PostPlay(request):
         play.media_filename = jsonData['media_filename']
         play.media_type     = jsonData['media_type']
 
-	if 'season' in jsonData.keys():
-	    play.season = jsonData['season']
+        if 'season' in jsonData.keys():
+            play.season = jsonData['season']
 
-	if 'episode' in jsonData.keys():
-	    play.episode = jsonData['episode']
+        if 'episode' in jsonData.keys():
+            play.episode = jsonData['episode']
 
-	if 'idp_name' in jsonData.keys():
-	    play.idp_name = jsonData['idp_name']
+        if 'idp_name' in jsonData.keys():
+            play.idp_name = jsonData['idp_name']
 
         play.save()
 
@@ -166,7 +166,7 @@ def gatraPlayer_PostEvent(request, id):
         return HttpResponse('', status=http_UNAUTHORIZED)
 
     if id is None:
-	return HttpResponse('', status=http_BAD_REQUEST)
+        return HttpResponse('', status=http_BAD_REQUEST)
 
     try:
         jsonData = json.loads(request.body)
@@ -183,12 +183,12 @@ def gatraPlayer_PostEvent(request, id):
     'fullscreen' in jsonData.keys() and
     'volume' in jsonData.keys()):
 
-	try:
-	    play_id = Play.objects.get(id = id)
-	except:
-	    return HttpResponse('Play ID not found', status=http_BAD_REQUEST)
+        try:
+            play_id = Play.objects.get(id = id)
+        except:
+            return HttpResponse('Play ID not found', status=http_BAD_REQUEST)
 
-	event = Event()
+        event = Event()
         event.play		= play_id
         event.type              = jsonData['type']
         event.trigger           = jsonData['trigger']
@@ -201,19 +201,19 @@ def gatraPlayer_PostEvent(request, id):
         event.volume            = jsonData['volume']
 
         if 'bitrate' in jsonData.keys():
-	    event.bitrate = jsonData['bitrate']
+            event.bitrate = jsonData['bitrate']
 
-	if 'bandwidth' in jsonData.keys():
-	    event.bandwidth = jsonData['bandwidth']
+        if 'bandwidth' in jsonData.keys():
+            event.bandwidth = jsonData['bandwidth']
 
-	if 'media_seq' in jsonData.keys():
-	    event.media_seq = jsonData['media_seq']
+        if 'media_seq' in jsonData.keys():
+            event.media_seq = jsonData['media_seq']
 
-	if 'load_time' in jsonData.keys():
-	    event.load_time = jsonData['load_time']
+        if 'load_time' in jsonData.keys():
+            event.load_time = jsonData['load_time']
 
-	if 'quality_label' in jsonData.keys():
-	    event.quality_label     = jsonData['quality_label']
+        if 'quality_label' in jsonData.keys():
+            event.quality_label = jsonData['quality_label']
 
         event.save()
 

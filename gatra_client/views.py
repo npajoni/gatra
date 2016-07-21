@@ -48,30 +48,30 @@ def gatraClient_PostLogin(request):
         login.customer_id   = jsonData['customer_id']
         login.customer_name = jsonData['customer_name']
         login.idp           = jsonData['idp']
-	if 'idp_name' in jsonData.keys():
-    	    login.idp_name      = jsonData['idp_name']
-	if 'session_ttl' in jsonData.keys():
-	    login.session_ttl   = jsonData['session_ttl']
+        if 'idp_name' in jsonData.keys():
+            login.idp_name      = jsonData['idp_name']
+        if 'session_ttl' in jsonData.keys():
+            login.session_ttl   = jsonData['session_ttl']
         login.country       = jsonData['country']
         login.access        = jsonData['access']
         login.user_agent    = jsonData['user_agent']
         login.source_ip     = jsonData['source_ip']
 
-	ua = parse(login.user_agent)
-	if ua.is_mobile:
-	    login.device_type = 'mobile'
-	elif ua.is_tablet:
-	    login.device_type = 'tablet'
-	elif ua.is_pc:
-	    login.device_type = 'desktop'
-	else:
-	    login.device_type = 'unknown'
+        ua = parse(login.user_agent)
+        if ua.is_mobile:
+            login.device_type = 'mobile'
+        elif ua.is_tablet:
+            login.device_type = 'tablet'
+        elif ua.is_pc:
+            login.device_type = 'desktop'
+        else:
+            login.device_type = 'unknown'
 
-	login.save()
+        login.save()
 
         status = http_POST_OK
         data = {}
-        response =  HttpResponse(json.dumps(data), status=status, content_type='application/json')
+        response = HttpResponse(json.dumps(data), status=status, content_type='application/json')
         return response
 
     return HttpResponse('Mandatory json value not found', status=http_BAD_REQUEST)

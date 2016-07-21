@@ -6,18 +6,18 @@ from django.db import models
 # Create your models here.
 
 class Hash(models.Model):
-    valid_hash = models.CharField(max_length=32, unique=True)
-    user_name  = models.CharField(max_length=200, blank=True)
-    title      = models.CharField(max_length=255, blank=True)
-    valid_host = models.CharField(max_length=15)
-    expiration = models.DateTimeField()
+    valid_hash  = models.CharField(max_length=32, unique=True)
+    user_name   = models.CharField(max_length=200, blank=True)
+    title       = models.CharField(max_length=255, blank=True)
+    valid_host  = models.CharField(max_length=15)
+    expiration  = models.DateTimeField()
 
     def __unicode__(self):
         return self.valid_hash
 
 
 class Event(models.Model):
-    play		= models.ForeignKey('Play')
+    play                = models.ForeignKey('Play')
     date                = models.DateTimeField(auto_now_add=True)
     type                = models.CharField(max_length=50)
     trigger             = models.CharField(max_length=20)
@@ -55,19 +55,18 @@ class Play (models.Model):
     media_id        = models.CharField(max_length=10)
     media_filename  = models.CharField(max_length=200)
     media_type      = models.CharField(max_length=10)
-    reduced	    = models.BooleanField(default=False)
-    rep_time	    = models.FloatField(blank=True, null=True)
+    reduced         = models.BooleanField(default=False)
+    rep_time        = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
         return self.user_name
 
 class Content(models.Model):
-    title	    = models.CharField(max_length=255)
-    media_id        = models.CharField(max_length=10)
-    category	    = models.CharField(max_length=510)
-    channel	    = models.CharField(max_length=50)
-    cast	    = models.CharField(max_length=300, blank=True)
+    title       = models.CharField(max_length=255)
+    media_id    = models.CharField(max_length=10)
+    category    = models.CharField(max_length=510)
+    channel     = models.CharField(max_length=50)
+    cast        = models.CharField(max_length=300, blank=True)
 
     def __unicode__(self):
-	return self.title
-
+        return self.title

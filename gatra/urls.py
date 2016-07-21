@@ -26,10 +26,12 @@ from gatra_player.views import gatraPlayer_PostPlay
 from gatra_player.views import gatraPlayer_PostEvent
 from gatra_player.views import gatraPlayer_PostHash
 from gatra_client.views import gatraClient_PostLogin
+from gatra_thirdparty.views import gatraThirdparty_PostPlay
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^play/$', gatraPlayer_PostPlay),
+    url(r'^thirdpartyplay/$', gatraThirdparty_PostPlay),
     url(r'^hash/$', gatraPlayer_PostHash),
     url(r'^play/(?P<id>\d+)/$', gatraPlayer_PostEvent),
     url(r'^logins/$', gatraClient_PostLogin)
