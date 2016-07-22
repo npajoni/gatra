@@ -28,34 +28,34 @@ def gatraThirdparty_PostPlay(request):
     except:
         return HttpResponse('Could not load json', status=http_BAD_REQUEST)
 
-    if ('title' in jsonData.keys() and
-        'duration' in jsonData.keys() and
-        'device_type' in jsonData.keys() and
+    if ('device_type' in jsonData.keys() and
         'user_agent' in jsonData.keys() and
-        'ip_source' in jsonData.keys() and
-        'user_name' in jsonData.keys() and
         'user_id' in jsonData.keys() and
         'access' in jsonData.keys() and
         'country' in jsonData.keys() and
         'idp' in jsonData.keys() and
-        'media_id' in jsonData.keys() and
-        'media_filename' in jsonData.keys() and
-        'media_type' in jsonData.keys()):
+        'media_id' in jsonData.keys()):
 
         play = Play()
-        play.title = jsonData['title']
-        play.duration = jsonData['duration']
+        if 'title' in jsonData.keys():
+            play.title = jsonData['title']
+        if 'duration' in jsonData.keys():
+            play.duration = jsonData['duration']
         play.device_type = jsonData['device_type']
-        play.user_agent = jsonData['duration']
-        play.ip_source = jsonData['ip_source']
-        play.user_name = jsonData['user_name']
+        play.user_agent = jsonData['user_agent']
+        if 'ip_source' in jsonData.keys():
+            play.ip_source = jsonData['ip_source']
+        if 'user_name' in jsonData.keys():
+            play.user_name = jsonData['user_name']
         play.user_id = jsonData['user_id']
         play.access = jsonData['access']
         play.country = jsonData['country']
         play.idp = jsonData['idp']
         play.media_id = jsonData['media_id']
-        play.media_filename = jsonData['media_filename']
-        play.media_type = jsonData['media_type']
+        if 'media_filename' in jsonData.keys():
+            play.media_filename = jsonData['media_filename']
+        if 'media_type' in jsonData.keys():
+            play.media_type = jsonData['media_type']
 
         if 'season' in jsonData.keys():
             play.season = jsonData['season']
