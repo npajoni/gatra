@@ -4,7 +4,6 @@ from django.db import models
 
 # Create your models here.
 
-
 class Play (models.Model):
 
     ACCESS_TYPE = (('none', 'none'),
@@ -32,3 +31,4 @@ class Play (models.Model):
 
     def __unicode__(self):
         return self.user_name
+
